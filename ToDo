@@ -1,0 +1,47 @@
+Allgemeine Beschreibung der Aufgabe
+
+    nichttriviales objektorientiertes Datenmodell
+    Klassen vollständig implementieren
+    notwendige Konstruktoren und verwandte Funktionen, Getter, Setter und Vergleichsoperatoren.
+
+    Achten Sie, dass bei Parametern  unnötige Kopien vermieden werden.
+
+    Teilen Sie den Code in mehrere Kompiliereinheiten (.cpp) und Includefiles(.h) ein.
+
+    Wenn möglich, bauen Sie eine einfache Klassenhierarchie ein.
+
+    Wenn möglich, bauen Sie Ein-, Ausgabe in eine Datei ein.
+
+    Wenn möglich, implementieren Sie eine kleinen Algorithmus.
+
+Beispiel 1 – Dateien aus einer FASTA-Datei
+
+    objektorientiertes Modell um die Information, die in einer FASTA Datei gespeichert sein können, abzubilden.
+    Siehe https://de.wikipedia.org/wiki/FASTA-Format
+
+    zumindest je eine Klasse für Sequenz, Headerinformation und die Elemente, die in den Sequenzen aufgelistet sind.
+
+    Im Modell sollen die Sequenzen als Sammlung von Sequenzelementen und nicht als Stringrepräsentation der Elementcodes abgebildet werden.
+
+Zusatzaufgabe:
+
+    implementieren Sie die Sequenzelemente als Klassenhierarchie. Siehe https://www.bioinformatics.org/sms/iupac.html
+
+    Lesen sie das Modell von einer FASTA-Datei und schreiben Sie es wieder auf eine FASTA-Datei.
+
+    Schreiben Sie eine Methode zur Berechnung eines Histogramms für die Elemente von Sequenzen.
+
+
+Parent Acid
+    Children: AminoAcid, NucleicAcid
+
+Parent FastaFileContent
+    Children: Header, Comment, Sequence    
+                               Children: ProteinSequence, NucleicAcidSequence
+                                                          Children: RNA, DNA
+
+GC Content
+Open Reading Frames (Start Codon to Stop Codon)
+longest Poly-Sequence
+
+
