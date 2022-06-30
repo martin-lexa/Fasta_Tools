@@ -1,28 +1,11 @@
-#include <iostream>
-
 #include "FastaFile.h"
+#include <string>
 
 using namespace std;
 
-/* class FastaFileContent
-{
-};
-
-class Header : public FastaFileContent
-{
-};
-
-class Sequence : public FastaFileContent
-{
-};
-
-class Comment : public FastaFileContent
-{
-}; */
-
 // FastaFile
 Comment *emptyComment = nullptr; // --> comment will always have to be checked if nullptr
-// Constructor
+// Constructors
 FastaFile::FastaFile(Header &i_header, Sequence &i_sequence)
     : FastaFile(i_header, i_sequence, *emptyComment)
 {
@@ -35,6 +18,7 @@ FastaFile::FastaFile(Header &i_header, Sequence &i_sequence, Comment &i_comment)
 {
 }
 
+// copy constructor
 FastaFile::FastaFile(const FastaFile &i_src)
 {
     *this = i_src;
@@ -71,6 +55,6 @@ void FastaFile::setSequence(const Sequence &i_sequence) { m_sequence = i_sequenc
 void FastaFile::setComment(const Comment &i_comment) { m_comment = i_comment; }
 
 // getter
-const Header &FastaFile::getHeader() { return m_header; }
-const Sequence &FastaFile::getSequence() { return m_sequence; }
-const Comment *FastaFile::getComment() { return &m_comment; }
+const Header &FastaFile::getHeader() const { return m_header; }
+const Sequence &FastaFile::getSequence() const { return m_sequence; }
+const Comment &FastaFile::getComment() const { return m_comment; }
