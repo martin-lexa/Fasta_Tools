@@ -1,13 +1,16 @@
 #include <iostream>
-#include <string>
+#include <fstream>
+#include <sstream>
 
 #include "SequenceElement.h"
+#include "FastaException.h"
 
 using namespace std;
 
 // TEMPPPPPP
 string fileName = "StandardAcids";
 
+// Amino Acid
 vector<AminoAcid *> AminoAcid::sm_standardAcids;
 map<char, AminoAcid *> AminoAcid::sm_allAcids;
 
@@ -19,19 +22,45 @@ AminoAcid *AminoAcid::getStandardAcid(char i_oneLetterName)
         if (pAcid->getOneLetterName() == i_oneLetterName)
             return pAcid;
 
-    // error
+    throw FastaException(string("'") + i_oneLetterName + "' is not a known one letter code for amino acids.");
 }
 
 void AminoAcid::initStandardAcids(string &standardAcidsFile)
 {
-    struct AcidInfo
+    if (sm_standardAcids.empty())
     {
-        string longName;
-        string threeLetterName;
-        char oneLetterName;
-        float molecularMass;
-    };
-    vector<AcidInfo> standardAcidInfos;
+        struct AcidInfo
+        {
+            string longName;
+            string threeLetterName;
+            char oneLetterName;
+            float molecularMass;
+        };
+        vector<AcidInfo> standardAcidInfos;
+        ifstream inputFile("StandardAcids");
+        string line;
+        while (getline(inputFile, line))
+        {
+            istringstream iss(line);
+            string value;
+            vector<string> values;
+            while (getline(iss, value, ','))
+            {
+                values.push_back(value);
+            }
+            AcidInfo newAcidInfo = {values[0], values[1], values[2][0], stof(values[3])};
+            standardAcidInfos.push_back(newAcidInfo);
+        }
+        inputFile.close();
+        for (auto &acidInfo : standardAcidInfos)
+        {
+            AminoAcid *pNewAcid = new AminoAcid(acidInfo.oneLetterName);
+            pNewAcid->setLongName(acidInfo.longName);
+            pNewAcid->setThreeLetterName(acidInfo.threeLetterName);
+            pNewAcid->setMolecularMass(acidInfo.molecularMass);
+            sm_standardAcids.push_back(pNewAcid);
+        }
+    }
 }
 
 const map<char, AminoAcid *> &AminoAcid::getAllAcids()
@@ -39,11 +68,12 @@ const map<char, AminoAcid *> &AminoAcid::getAllAcids()
     return sm_allAcids;
 }
 
+// C'tors
 AminoAcid::AminoAcid(char i_oneLetterName)
     : m_oneLetterName(i_oneLetterName)
 {
     if (sm_allAcids.find(i_oneLetterName) != sm_allAcids.end())
-        ; // FEHLER !
+        throw FastaException(string("The code '") + i_oneLetterName + "' is already in use for (a) amino acid(s)");
     sm_allAcids[i_oneLetterName] = this;
 }
 
@@ -64,7 +94,7 @@ AminoAcid &AminoAcid::operator=(const AminoAcid &i_src) // assignment operator
     // todo?
     return *this;
 }
-bool AminoAcid::operator==(const AminoAcid &i_rhs) const // not in cpp
+bool AminoAcid::operator==(const AminoAcid &i_rhs) const // TODO
 {
 }
 
@@ -85,3 +115,5 @@ void AminoAcid::print() const
 {
     cout << "Amino Acid " << m_longName << ", Molecular Mass: " << m_molecularMass << endl;
 }
+
+// Nucleotide
