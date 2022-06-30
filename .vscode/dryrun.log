@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/martin/Documents/C++Projects/Fasta_Gruppe'
+make: Leaving directory '/home/martin/Documents/C++Projects/Fasta_Gruppe'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

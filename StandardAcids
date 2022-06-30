@@ -1,33 +1,33 @@
-Alanine Ala	A 89.094
-Arginine Arg R 174.203
-Asparagine Asn N 132.119
-Aspartate Asp D 133.104	
-Cysteine Cys C 121.154
-Glutamine Gln Q 146.146
-Glutamate Glu E 147.131
-Glycine Gly G 75.067
-Histidine His H 155.156
-Isoleucine Ile I 131.175
-Leucine Leu L 131.175
-Lysine Lys K 146.189
-Methionine Met M 149.208
-Phenylalanine Phe F 165.192
-Proline Pro P 115.132
-Serine Ser S 105.093
-Threonine Thr T 119.119
-Tryptophan Trp W 204.228
-Tyrosine Tyr Y 181.191
-Valine Val V 117.148
-Selenocysteine Sec U 168.064
-Pyrrolysine Pyl O 255.313
-Any/Unknown Xaa X 110
-Asparagine/Aspartate Asx B 132.6115
-Glutamine/Glutamate Glx Z 146.6385
-Leucine/Isoleucine Xle J 131.175
-Hydrophobic NON Φ 154.188
-Aromatic NON Ω 176.442
-Aliphatic NON Ψ 132.1765
-Small NON π 96.0965
-Hydrophilic NON ζ 139.8067
-Positively-charged NON + 158.516
-Negatively-charged NON - 140.1175
+Alanine,Ala,A,89.094
+Arginine,Arg,R,174.203
+Asparagine,Asn,N,132.119
+Aspartate,Asp,D,133.104	
+Cysteine,Cys,C,121.154
+Glutamine,Gln,Q,146.146
+Glutamate,Glu,E,147.131
+Glycine,Gly,G,75.067
+Histidine,His,H,155.156
+Isoleucine,Ile,I,131.175
+Leucine,Leu,L,131.175
+Lysine,Lys,K,146.189
+Methionine,Met,M,149.208
+Phenylalanine,Phe,F,165.192
+Proline,Pro,P,115.132
+Serine,Ser,S,105.093
+Threonine,Thr,T,119.119
+Tryptophan,Trp,W,204.228
+Tyrosine,Tyr,Y,181.191
+Valine,Val,V,117.148
+Selenocysteine,Sec,U,168.064
+Pyrrolysine,Pyl,O,255.313
+Any / Unknown,Xaa,X,110
+Asparagine or Aspartate,Asx,B,132.6115
+Glutamine or Glutamate,Glx,Z,146.6385
+Leucine or Isoleucine,Xle,J,131.175
+Hydrophobic,NaN,Φ,154.188
+Aromatic,NaN,Ω,176.442
+Aliphatic (non-aromatic),NaN,Ψ,132.1765
+Small,NaN,π,96.0965
+Hydrophilic,NaN,ζ,139.8067
+Positively-charged,NaN,+,158.516
+Negatively-charged,NaN,-,140.1175
