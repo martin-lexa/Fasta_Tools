@@ -24,10 +24,10 @@ Any / Unknown,Xaa,X,110
 Asparagine or Aspartate,Asx,B,132.6115
 Glutamine or Glutamate,Glx,Z,146.6385
 Leucine or Isoleucine,Xle,J,131.175
-Hydrophobic,NON,Φ,154.188
-Aromatic,NON,Ω,176.442
-Aliphatic (non-aromatic),NON,Ψ,132.1765
-Small,NON,π,96.0965
-Hydrophilic,NON,ζ,139.8067
-Positively-charged,NON,+,158.516
-Negatively-charged,NON,-,140.1175
+Hydrophobic,None,Φ,154.188
+Aromatic,None,Ω,176.442
+Aliphatic (non-aromatic),None,Ψ,132.1765
+Small,None,π,96.0965
+Hydrophilic,None,ζ,139.8067
+Positively-charged,None,+,158.516
+Negatively-charged,None,-,140.1175

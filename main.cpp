@@ -1,6 +1,6 @@
 #include "FastaFile.h"
-#include "FastaFileContent.h"
-#include "SequenceElement.h"
+#include "AminoAcid.h"
+#include "NucleicAcid.h"
 #include "FastaException.h"
 
 #include <iostream>

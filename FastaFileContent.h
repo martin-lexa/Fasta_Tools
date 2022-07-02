@@ -1,9 +1,55 @@
 #pragma once
 
+#include <map>
+#include <string>
+
 class FastaFileContent
 {
+public:
+    enum class ContentType
+    {
+        Header,
+        Sequence,
+        Commment
+    };
+
+protected:
+    // Constructors
+    FastaFileContent(ContentType contentType, string &i_content);
+
+    FastaFileContent(const FastaFileContent &i_src); // copy c'tor
+
+    // Destructor
+    ~FastaFileContent();
+
+    // Assignment Operator
+    FastaFileContent &operator=(const FastaFileContent &i_src);
+
+public:
+    // Static Access
+    static const map<string, FastaFileContent *> &getAllFastaContent();
+
+    // Operators
+    bool operator==(const FastaFileContent &i_rhs) const;
+    bool operator!=(const FastaFileContent &i_rhs) const;
+
+    // setter
+    void setContent(const string &i_content);
+
+    // getter
+    const string &getContent() const;
+
+    // interface functions
+    virtual void print() const;
+
+private:
+    static map<string, FastaFileContent *> sm_allContent;
+
+    ContentType m_contentType;
+    string m_content;
 };
 
+/*
 class Header : public FastaFileContent
 {
 };
@@ -61,4 +107,4 @@ public:
 
 private:
     NucleicAcidSequenceType nucleicAcidSequenceType = NucleicAcidSequenceType::RNA;
-};
+};*/

@@ -2,32 +2,24 @@
 #include <fstream>
 #include <sstream>
 
-#include "SequenceElement.h"
-#include "FastaException.h"
+#include "AminoAcid.h"
 
-using namespace std;
+vector<AminoAcid *> AminoAcid::sm_standardAminoAcids;
 
-// TEMPPPPPP
-string fileName = "StandardAcids";
-
-// Amino Acid
-vector<AminoAcid *> AminoAcid::sm_standardAcids;
-map<char, AminoAcid *> AminoAcid::sm_allAcids;
-
-AminoAcid *AminoAcid::getStandardAcid(char i_oneLetterName)
+AminoAcid *AminoAcid::getStandardAminoAcid(char i_oneLetterName)
 {
-    initStandardAcids(fileName); // todo
+    initStandardAminoAcids();
 
-    for (auto *pAcid : sm_standardAcids)
+    for (auto *pAcid : sm_standardAminoAcids)
         if (pAcid->getOneLetterName() == i_oneLetterName)
             return pAcid;
 
     throw FastaException(string("'") + i_oneLetterName + "' is not a known one letter code for amino acids.");
 }
 
-void AminoAcid::initStandardAcids(string &standardAcidsFile)
+void AminoAcid::initStandardAminoAcids(const string &standardAminoAcidsFile = "StandardAminoAcids")
 {
-    if (sm_standardAcids.empty())
+    if (sm_standardAminoAcids.empty())
     {
         struct AcidInfo
         {
@@ -36,7 +28,7 @@ void AminoAcid::initStandardAcids(string &standardAcidsFile)
             char oneLetterName;
             float molecularMass;
         };
-        vector<AcidInfo> standardAcidInfos;
+        vector<AcidInfo> standardAminoAcidInfos;
         ifstream inputFile("StandardAcids");
         string line;
         while (getline(inputFile, line))
@@ -49,42 +41,34 @@ void AminoAcid::initStandardAcids(string &standardAcidsFile)
                 values.push_back(value);
             }
             AcidInfo newAcidInfo = {values[0], values[1], values[2][0], stof(values[3])};
-            standardAcidInfos.push_back(newAcidInfo);
+            standardAminoAcidInfos.push_back(newAcidInfo);
         }
         inputFile.close();
-        for (auto &acidInfo : standardAcidInfos)
+        for (auto &acidInfo : standardAminoAcidInfos)
         {
-            AminoAcid *pNewAcid = new AminoAcid(acidInfo.oneLetterName);
-            pNewAcid->setLongName(acidInfo.longName);
+            AminoAcid *pNewAcid = new AminoAcid(acidInfo.oneLetterName, acidInfo.longName);
             pNewAcid->setThreeLetterName(acidInfo.threeLetterName);
             pNewAcid->setMolecularMass(acidInfo.molecularMass);
-            sm_standardAcids.push_back(pNewAcid);
+            sm_standardAminoAcids.push_back(pNewAcid);
         }
     }
 }
 
-const map<char, AminoAcid *> &AminoAcid::getAllAcids()
-{
-    return sm_allAcids;
-}
-
 // C'tors
-AminoAcid::AminoAcid(char i_oneLetterName)
-    : m_oneLetterName(i_oneLetterName)
+AminoAcid::AminoAcid(char i_oneLetterName, string &i_longName)
+    : Acid(i_oneLetterName, i_longName)
 {
-    if (sm_allAcids.find(i_oneLetterName) != sm_allAcids.end())
-        throw FastaException(string("The code '") + i_oneLetterName + "' is already in use for (a) amino acid(s)");
-    sm_allAcids[i_oneLetterName] = this;
 }
 
-AminoAcid::AminoAcid(const AminoAcid &i_src) { *this = i_src; } // copy c'tor
+AminoAcid::AminoAcid(const AminoAcid &i_src)
+    : Acid(i_src)
+{
+    *this = i_src;
+} // copy c'tor
 
 // Destructor
 AminoAcid::~AminoAcid()
 {
-    auto iter = sm_allAcids.find(m_oneLetterName);
-    if (iter != sm_allAcids.end())
-        sm_allAcids.erase(iter);
 }
 
 // Operators
@@ -94,20 +78,13 @@ AminoAcid &AminoAcid::operator=(const AminoAcid &i_src) // assignment operator
     // todo?
     return *this;
 }
-bool AminoAcid::operator==(const AminoAcid &i_rhs) const // TODO
-{
-}
 
 // setter
-void AminoAcid::setLongName(const string &i_longName) { m_longName = i_longName; }
 void AminoAcid::setThreeLetterName(const string &i_threeLetterName) { m_threeLetterName = i_threeLetterName; }
-void AminoAcid::setOneLetterName(char i_oneLetterName) { m_oneLetterName = i_oneLetterName; }
 void AminoAcid::setMolecularMass(float i_molecularMass) { m_molecularMass = i_molecularMass; }
 
 // getter
-const string &AminoAcid::getLongName() const { return m_longName; }
 const string &AminoAcid::getThreeLetterName() const { return m_threeLetterName; }
-char AminoAcid::getOneLetterName() const { return m_oneLetterName; }
 float AminoAcid::getMolecularMass() const { return m_molecularMass; }
 
 // interface functions
@@ -115,5 +92,3 @@ void AminoAcid::print() const
 {
     cout << "Amino Acid " << m_longName << ", Molecular Mass: " << m_molecularMass << endl;
 }
-
-// Nucleotide
