@@ -3,13 +3,11 @@
 
 using namespace std;
 
-vector<FastaFileContent *> sm_allContent;
-
 // Constructors
 FastaFileContent::FastaFileContent(ContentType i_contentType)
     : m_contentType(i_contentType)
 {
-    sm_allContent.push_back(this);
+    // sm_allContent.push_back(this);
 }
 
 FastaFileContent::FastaFileContent(const FastaFileContent &i_src)
@@ -28,10 +26,10 @@ FastaFileContent &FastaFileContent::operator=(const FastaFileContent &i_src)
 }
 
 // Static Access
-const vector<FastaFileContent *> &FastaFileContent::getAllFastaContent()
+/*const vector<FastaFileContent *> &FastaFileContent::getAllFastaContent()
 {
     return sm_allContent;
-}
+}*/
 
 // Operators
 bool FastaFileContent::operator==(const FastaFileContent &i_rhs) const
