@@ -3,6 +3,8 @@
 
 using namespace std;
 
+vector<FastaFileContent *> sm_allContent;
+
 // Constructors
 FastaFileContent::FastaFileContent(ContentType i_contentType)
     : m_contentType(i_contentType)

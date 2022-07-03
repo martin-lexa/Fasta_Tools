@@ -27,6 +27,7 @@ Header &Header::operator=(const Header &i_src) // assignment operator
     this->m_content = i_src.m_content;
     this->m_contentType = i_src.m_contentType;
     this->m_sequenceID = i_src.m_sequenceID;
+    return *this;
 }
 
 // setter
