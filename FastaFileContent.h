@@ -31,7 +31,7 @@ protected:
 
 public:
     // Static Access
-    static const vector<FastaFileContent *> &getAllFastaContent();
+    // static const vector<FastaFileContent *> &getAllFastaContent();
 
     // Operators
     bool operator==(const FastaFileContent &i_rhs) const;
@@ -50,7 +50,7 @@ public:
     friend std::ostream &operator<<(std::ostream &os, FastaFileContent const &data);
 
 protected:
-    static vector<FastaFileContent *> sm_allContent;
+    // static vector<FastaFileContent *> sm_allContent;
 
     ContentType m_contentType;
 };
