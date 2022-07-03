@@ -27,6 +27,7 @@ Sequence &Sequence::operator=(const Sequence &i_src) // assignment operator
     this->m_contentType = i_src.m_contentType;
     this->m_sequenceType = i_src.m_sequenceType;
     this->m_sequenceAcids = i_src.m_sequenceAcids;
+    return *this;
 }
 
 // setter

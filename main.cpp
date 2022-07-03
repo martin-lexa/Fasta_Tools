@@ -36,27 +36,34 @@ Sequence::SequenceType determineSequenceType(string &sequenceString)
 
 Sequence convertStringToSeq(string &sequenceString) // less readable function name because "convertStringToSequence" seems to be a standard function name
 {
+    vector<Acid *> sequenceAcids;
+    Sequence::SequenceType seqType = determineSequenceType(sequenceString);
+    if (seqType == Sequence::SequenceType::Protein)
+    {
+        for (char c : sequenceString)
+        {
+            sequenceAcids.push_back(AminoAcid::getStandardAminoAcid(toupper(c)));
+        }
+    }
+    else
+    {
+        for (char c : sequenceString)
+        {
+            sequenceAcids.push_back(NucleicAcid::getStandardNucleicAcid(toupper(c)));
+        }
+    }
+    Sequence *newSequence = new Sequence(seqType, sequenceAcids);
+    return *newSequence;
+}
+
+string checkSeqString(string &sequenceString) // checks if there are Acids in the SequenceString so they can be converted into a Sequence-Object
+{
     if (!sequenceString.empty())
     {
-        vector<Acid *> sequenceAcids;
-        Sequence::SequenceType seqType = determineSequenceType(sequenceString);
-        if (seqType == Sequence::SequenceType::Protein)
-        {
-            for (char c : sequenceString)
-            {
-                sequenceAcids.push_back(AminoAcid::getStandardAminoAcid(toupper(c)));
-            }
-        }
-        else
-        {
-            for (char c : sequenceString)
-            {
-                sequenceAcids.push_back(NucleicAcid::getStandardNucleicAcid(toupper(c)));
-            }
-        }
-        Sequence *newSequence = new Sequence(seqType, sequenceAcids);
-        return *newSequence;
+        convertStringToSeq(sequenceString);
+        sequenceString = ""; // after conversion, string is set to empty, to take up next sequence
     }
+    return sequenceString;
 }
 
 FastaFile readFastFile(const string &filePath)
@@ -65,18 +72,20 @@ FastaFile readFastFile(const string &filePath)
     FastaFile *fastaFile = new FastaFile();
     ifstream inputFile(filePath);
     string line, sequenceString = "";
+
     while (getline(inputFile, line))
     {
 
         if (line[0] == '>')
         {
-            convertStringToSeq(sequenceString);
+            sequenceString = checkSeqString(sequenceString);
             string sequenceID = line.substr(1, line.find(" "));
             auto *newHeader = new Header(sequenceID, line);
             fastaFile->addOrChangeHeader(*newHeader, 0);
         }
         else if (line[0] == ';')
         {
+            sequenceString = checkSeqString(sequenceString);
             auto *newComment = new Comment(line);
             fastaFile->addOrChangeComment(*newComment, 0);
         }
@@ -87,6 +96,7 @@ FastaFile readFastFile(const string &filePath)
             sequenceString += line;
         }
     }
+    sequenceString = checkSeqString(sequenceString);
     inputFile.close();
     return *fastaFile;
 }
