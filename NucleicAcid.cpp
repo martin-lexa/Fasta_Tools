@@ -6,17 +6,6 @@
 
 vector<NucleicAcid *> NucleicAcid::sm_standardNucleicAcids;
 
-NucleicAcid *NucleicAcid::getStandardNucleicAcid(char i_oneLetterName)
-{
-    initStandardNucleicAcids();
-
-    for (auto *pAcid : sm_standardNucleicAcids)
-        if (pAcid->getOneLetterName() == i_oneLetterName)
-            return pAcid;
-
-    throw FastaException(string("'") + i_oneLetterName + "' is not a known one letter code for Nucleic acids.");
-}
-
 void NucleicAcid::initStandardNucleicAcids(const string &standardNucleicAcidsFile = "StandardNucleicAcids")
 {
     if (sm_standardNucleicAcids.empty())
@@ -48,6 +37,17 @@ void NucleicAcid::initStandardNucleicAcids(const string &standardNucleicAcidsFil
             sm_standardNucleicAcids.push_back(pNewAcid);
         }
     }
+}
+
+NucleicAcid *NucleicAcid::getStandardNucleicAcid(char i_oneLetterName)
+{
+    initStandardNucleicAcids();
+
+    for (auto *pAcid : sm_standardNucleicAcids)
+        if (pAcid->getOneLetterName() == i_oneLetterName)
+            return pAcid;
+
+    throw FastaException(string("'") + i_oneLetterName + "' is not a known one letter code for Nucleic acids.");
 }
 
 // C'tors

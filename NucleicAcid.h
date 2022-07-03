@@ -7,9 +7,6 @@ using namespace std;
 class NucleicAcid : public Acid
 {
 public:
-    // static access
-    static NucleicAcid *getStandardNucleicAcid(char i_oneLetterName);
-
     // Constructors
     NucleicAcid(char i_oneLetterName, string i_longName);
 
@@ -28,4 +25,8 @@ public:
 private:
     static void initStandardNucleicAcids(const string &standardNucleicAcidsFile);
     static vector<NucleicAcid *> sm_standardNucleicAcids;
+
+public:
+    // static access
+    static NucleicAcid *getStandardNucleicAcid(char i_oneLetterName);
 };

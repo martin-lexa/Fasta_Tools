@@ -7,9 +7,6 @@ using namespace std;
 class AminoAcid : public Acid
 {
 public:
-    // static access
-    static AminoAcid *getStandardAminoAcid(char i_oneLetterName);
-
     // Constructors
     AminoAcid(char i_oneLetterName, string &i_longName);
 
@@ -38,4 +35,8 @@ private:
 
     string m_threeLetterName;
     float m_molecularMass;
+
+public:
+    // static access
+    static AminoAcid *getStandardAminoAcid(char i_oneLetterName);
 };

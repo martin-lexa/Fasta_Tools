@@ -41,7 +41,7 @@ public:
     void setContentType(const ContentType);
 
     // getter
-    const ContentType getContentType() const;
+    ContentType getContentType() const;
 
     // interface functions
     virtual void print(ostream &os) const = 0;

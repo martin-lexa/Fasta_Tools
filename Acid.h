@@ -23,6 +23,12 @@ protected:
     // Assignment Operator
     Acid &operator=(const Acid &i_src);
 
+    // members variables
+    static map<string, Acid *> sm_allAcids;
+
+    string m_longName;
+    char m_oneLetterName;
+
 public:
     // Static Access
     static const map<string, Acid *> &getAllAcids();
@@ -43,10 +49,4 @@ public:
 
     // interface functions
     virtual void print() const;
-
-protected:
-    static map<string, Acid *> sm_allAcids;
-
-    string m_longName;
-    char m_oneLetterName;
 };

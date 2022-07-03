@@ -33,7 +33,7 @@ public:
     void setSequenceAcids(const vector<Acid *> i_sequenceAcids);
 
     // getter
-    const SequenceType getSequenceType() const;
+    SequenceType getSequenceType() const;
     const vector<Acid *> getSequenceAcids() const;
 
     // interface functions

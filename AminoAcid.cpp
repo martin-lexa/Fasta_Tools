@@ -6,17 +6,6 @@
 
 vector<AminoAcid *> AminoAcid::sm_standardAminoAcids;
 
-AminoAcid *AminoAcid::getStandardAminoAcid(char i_oneLetterName)
-{
-    initStandardAminoAcids();
-
-    for (auto *pAcid : sm_standardAminoAcids)
-        if (pAcid->getOneLetterName() == i_oneLetterName)
-            return pAcid;
-
-    throw FastaException(string("'") + i_oneLetterName + "' is not a known one letter code for amino acids.");
-}
-
 void AminoAcid::initStandardAminoAcids(const string &standardAminoAcidsFile = "StandardAminoAcids")
 {
     if (sm_standardAminoAcids.empty())
@@ -29,7 +18,7 @@ void AminoAcid::initStandardAminoAcids(const string &standardAminoAcidsFile = "S
             float molecularMass;
         };
         vector<AcidInfo> standardAminoAcidInfos;
-        ifstream inputFile("StandardAcids");
+        ifstream inputFile(standardAminoAcidsFile);
         string line;
         while (getline(inputFile, line))
         {
@@ -52,6 +41,17 @@ void AminoAcid::initStandardAminoAcids(const string &standardAminoAcidsFile = "S
             sm_standardAminoAcids.push_back(pNewAcid);
         }
     }
+}
+
+AminoAcid *AminoAcid::getStandardAminoAcid(char i_oneLetterName)
+{
+    initStandardAminoAcids();
+
+    for (auto *pAcid : sm_standardAminoAcids)
+        if (pAcid->getOneLetterName() == i_oneLetterName)
+            return pAcid;
+
+    throw FastaException(string("'") + i_oneLetterName + "' is not a known one letter code for amino acids.");
 }
 
 // C'tors

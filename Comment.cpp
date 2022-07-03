@@ -40,5 +40,5 @@ void Comment::setContent(const string &i_content) { m_content = i_content; }
 const string &Comment::getContent() const { return m_content; }
 
 // interface functions
-void Comment::print(ostream &os) const { cout << m_content; }
+void Comment::print(ostream &os) const { os << m_content; }
 string Comment::asString() const { return m_content; }

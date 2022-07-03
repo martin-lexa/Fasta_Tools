@@ -45,7 +45,7 @@ bool FastaFileContent::operator!=(const FastaFileContent &i_rhs) const
 void FastaFileContent::setContentType(const ContentType i_contentType) { m_contentType = i_contentType; }
 
 // getter
-const FastaFileContent::ContentType FastaFileContent::getContentType() const { return m_contentType; }
+FastaFileContent::ContentType FastaFileContent::getContentType() const { return m_contentType; }
 
 // interface functions
 std::ostream &operator<<(std::ostream &os, FastaFileContent const &data)

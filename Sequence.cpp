@@ -34,14 +34,14 @@ void Sequence::setSequenceType(const SequenceType i_sequenceType) { m_sequenceTy
 void Sequence::setSequenceAcids(const vector<Acid *> i_sequenceAcids) { m_sequenceAcids = i_sequenceAcids; }
 
 // getter
-const Sequence::SequenceType Sequence::getSequenceType() const { return m_sequenceType; }
+Sequence::SequenceType Sequence::getSequenceType() const { return m_sequenceType; }
 const vector<Acid *> Sequence::getSequenceAcids() const { return m_sequenceAcids; }
 
 // interface functions
 void Sequence::print(ostream &os) const
 {
     for (auto acid : m_sequenceAcids)
-        cout << acid->getOneLetterName();
+        os << acid->getOneLetterName();
 }
 string Sequence::asString() const
 {
