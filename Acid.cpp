@@ -19,7 +19,7 @@ Acid::Acid(char i_oneLetterName, string &i_longName)
       m_longName(i_longName)
 {
     if (sm_allAcids.find(i_longName) != sm_allAcids.end())
-        throw FastaException(string("The code '") + i_oneLetterName + "' is already in use for (an) amino acid(s)");
+        throw FastaException(string("The name '") + i_longName + "' is already in use for (an) acid(s)");
     sm_allAcids[i_longName] = this;
 }
 
