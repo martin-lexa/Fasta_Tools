@@ -32,6 +32,6 @@ public:
     virtual string asString() const override;
 
 private:
-    string m_content;
     string m_sequenceID;
+    string m_content;
 };

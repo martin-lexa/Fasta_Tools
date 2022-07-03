@@ -37,7 +37,7 @@ public:
     const Sequence &getSequence(int entryIndex) const;
     const Comment &getComment(int entryIndex) const;
 
-    const int getLineWidth() const;
+    int getLineWidth() const;
     const vector<Header *> &getHeaders() const;
     const vector<Sequence *> &getSequences() const;
     const vector<Comment *> &getComments() const;
@@ -46,7 +46,7 @@ public:
     void writeFastaFile(const string &fileName) const;
 
 private:
-    int m_lineWidth = 0;
+    int m_lineWidth;
     vector<Header *> m_headers;
     vector<Sequence *> m_sequences;
     vector<Comment *> m_comments;

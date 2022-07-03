@@ -16,7 +16,7 @@ void NucleicAcid::initStandardNucleicAcids(const string &standardNucleicAcidsFil
             string longName;
         };
         vector<AcidInfo> standardNucleicAcidInfos;
-        ifstream inputFile("StandardAcids");
+        ifstream inputFile(standardNucleicAcidsFile);
         string line;
         while (getline(inputFile, line))
         {

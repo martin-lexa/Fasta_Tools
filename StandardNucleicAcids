@@ -14,5 +14,4 @@ D,A or G or T
 H,A or C or T
 V,A or C or G
 N,any base (not a gap)
-.,gap
 -,gap

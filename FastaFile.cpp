@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 
 #include "FastaFile.h"
 
@@ -102,7 +103,7 @@ const Header &FastaFile::getHeader(int entryIndex) const { return *m_headers[ent
 const Sequence &FastaFile::getSequence(int entryIndex) const { return *m_sequences[entryIndex]; }
 const Comment &FastaFile::getComment(int entryIndex) const { return *m_comments[entryIndex]; }
 
-const int FastaFile::getLineWidth() const { return m_lineWidth; }
+int FastaFile::getLineWidth() const { return m_lineWidth; }
 const vector<Header *> &FastaFile::getHeaders() const { return m_headers; }
 const vector<Sequence *> &FastaFile::getSequences() const { return m_sequences; }
 const vector<Comment *> &FastaFile::getComments() const { return m_comments; }
@@ -110,21 +111,28 @@ const vector<Comment *> &FastaFile::getComments() const { return m_comments; }
 // interface functions
 void FastaFile::writeFastaFile(const string &fileName) const
 {
+    cout << "Line Width: " << this->m_lineWidth << endl; // Testing
     ofstream outputFile;
     outputFile.open(fileName);
     int currentLineWidth = 0;
-    for (int i = 0; i < m_sequences.size(); i++)
+    int sequencesSize = m_sequences.size();
+    for (int i = 0; i < sequencesSize; i++)
     {
         outputFile << *m_headers[i] << endl;
         for (auto acid : m_sequences[i]->getSequenceAcids())
         {
             outputFile << acid->getOneLetterName();
             currentLineWidth++;
-            if (currentLineWidth == m_lineWidth)
-                outputFile << endl;
+            if (currentLineWidth == this->m_lineWidth)
+            {
+                outputFile << '\n';
+                currentLineWidth = 0;
+            }
         }
-        if (!m_comments[i]->getContent().empty())
-            outputFile << *m_comments[i] << endl;
+        outputFile << endl;
+        cout << "Line Width: " << this->m_lineWidth << endl; // Testing
+        /*if (!m_comments[i]->getContent().empty())
+            outputFile << *m_comments[i] << endl;*/
     }
     outputFile.close();
 }

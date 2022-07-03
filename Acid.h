@@ -26,8 +26,8 @@ protected:
     // members variables
     static map<string, Acid *> sm_allAcids;
 
-    string m_longName;
     char m_oneLetterName;
+    string m_longName;
 
 public:
     // Static Access

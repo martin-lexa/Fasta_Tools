@@ -1,8 +1,8 @@
 all:
-	g++ -std=c++11 -Wall -Wextra -o program *.cpp *.h
+	g++ -std=c++11 -Wall -Wextra -o program *.cpp
 
 clean:
-	rm program
+	rm program output.fasta
 
 run: all
 
