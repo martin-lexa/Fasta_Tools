@@ -52,7 +52,7 @@ bool Acid::operator!=(const Acid &i_rhs) const
 {
     return (i_rhs.m_oneLetterName != m_oneLetterName || i_rhs.m_longName != m_longName);
 }
-bool Acid::operator==(const std::string &i_rhs) const
+bool Acid::operator!=(const std::string &i_rhs) const
 {
     return i_rhs != m_longName;
 }

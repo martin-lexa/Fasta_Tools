@@ -38,5 +38,5 @@ const string &Header::getSequenceID() const { return m_sequenceID; }
 const string &Header::getContent() const { return m_content; }
 
 // interface functions
-void Header::print(ostream &os) const { cout << m_content; }
+void Header::print(ostream &os) const { os << m_content; }
 string Header::asString() const { return m_content; }
