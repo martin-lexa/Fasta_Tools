@@ -28,7 +28,4 @@ public:
 private:
     static void initStandardNucleicAcids(const string &standardNucleicAcidsFile);
     static vector<NucleicAcid *> sm_standardNucleicAcids;
-
-    string m_longName;
-    char m_oneLetterName;
 };

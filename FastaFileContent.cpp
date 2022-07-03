@@ -1,15 +1,19 @@
-#include <string>
-#include <map>
-
 #include "FastaFileContent.h"
+#include "FastaException.h"
+
+using namespace std;
 
 // Constructors
-FastaFileContent::FastaFileContent(ContentType contentType, string &i_content)
-    : m_content(i_content)
+FastaFileContent::FastaFileContent(ContentType i_contentType)
+    : m_contentType(i_contentType)
 {
+    sm_allContent.push_back(this);
 }
 
-FastaFileContent::FastaFileContent(const FastaFileContent &i_src) { *this = i_src; } // copy c'tor
+FastaFileContent::FastaFileContent(const FastaFileContent &i_src)
+{
+    *this = i_src;
+} // copy c'tor
 
 // Destructor
 FastaFileContent::~FastaFileContent() {}
@@ -18,46 +22,34 @@ FastaFileContent::~FastaFileContent() {}
 FastaFileContent &FastaFileContent::operator=(const FastaFileContent &i_src)
 {
     this->m_contentType = i_src.m_contentType;
-    this->m_content = i_src.m_content;
     return *this;
 }
 
 // Static Access
-const map<string, FastaFileContent *> &FastaFileContent::getAllFastaContent()
+const vector<FastaFileContent *> &FastaFileContent::getAllFastaContent()
 {
-    // TODO
+    return sm_allContent;
 }
 
 // Operators
 bool FastaFileContent::operator==(const FastaFileContent &i_rhs) const
 {
-    return i_rhs.m_content == m_content;
+    return i_rhs.asString() == this->asString();
 }
 bool FastaFileContent::operator!=(const FastaFileContent &i_rhs) const
 {
-    return i_rhs.m_content != m_content;
+    return i_rhs.asString() != this->asString();
 }
 
 // setter
-void FastaFileContent::setContent(const string &i_content) { m_content = i_content; }
+void FastaFileContent::setContentType(const ContentType i_contentType) { m_contentType = i_contentType; }
 
 // getter
-const string &FastaFileContent::getContent() const { return m_content; }
+const FastaFileContent::ContentType FastaFileContent::getContentType() const { return m_contentType; }
 
 // interface functions
-void FastaFileContent::print() const
+std::ostream &operator<<(std::ostream &os, FastaFileContent const &data)
 {
+    data.print(os);
+    return os;
 }
-
-/*
-class Header : public FastaFileContent
-{
-};
-
-class Sequence : public FastaFileContent
-{
-};
-
-class Comment : public FastaFileContent
-{
-}; */

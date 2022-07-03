@@ -75,7 +75,9 @@ AminoAcid::~AminoAcid()
 AminoAcid &AminoAcid::operator=(const AminoAcid &i_src) // assignment operator
 {
     this->m_oneLetterName = i_src.m_oneLetterName;
-    // todo?
+    this->m_longName = i_src.m_longName;
+    this->m_threeLetterName = i_src.m_threeLetterName;
+    this->m_molecularMass = i_src.m_molecularMass;
     return *this;
 }
 

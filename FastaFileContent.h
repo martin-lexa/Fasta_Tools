@@ -1,21 +1,25 @@
 #pragma once
 
-#include <map>
+#include <vector>
 #include <string>
+
+using namespace std;
 
 class FastaFileContent
 {
 public:
-    enum class ContentType
+    enum class ContentType : char
     {
         Header,
         Sequence,
-        Commment
+        Comment
     };
 
 protected:
     // Constructors
-    FastaFileContent(ContentType contentType, string &i_content);
+    FastaFileContent(ContentType i_contentType);
+
+    FastaFileContent() = default;
 
     FastaFileContent(const FastaFileContent &i_src); // copy c'tor
 
@@ -27,84 +31,26 @@ protected:
 
 public:
     // Static Access
-    static const map<string, FastaFileContent *> &getAllFastaContent();
+    static const vector<FastaFileContent *> &getAllFastaContent();
 
     // Operators
     bool operator==(const FastaFileContent &i_rhs) const;
     bool operator!=(const FastaFileContent &i_rhs) const;
 
     // setter
-    void setContent(const string &i_content);
+    void setContentType(const ContentType);
 
     // getter
-    const string &getContent() const;
+    const ContentType getContentType() const;
 
     // interface functions
-    virtual void print() const;
+    virtual void print(ostream &os) const = 0;
+    virtual string asString() const = 0;
 
-private:
-    static map<string, FastaFileContent *> sm_allContent;
+    friend std::ostream &operator<<(std::ostream &os, FastaFileContent const &data);
+
+protected:
+    static vector<FastaFileContent *> sm_allContent;
 
     ContentType m_contentType;
-    string m_content;
 };
-
-/*
-class Header : public FastaFileContent
-{
-};
-
-class Comment : public FastaFileContent
-{
-};
-
-class Sequence : public FastaFileContent
-{
-};
-
-class ProteinSequence : public Sequence
-{
-};
-
-class NucleicAcidSequence : public Sequence
-{
-public:
-    enum class NucleicAcidSequenceType
-    {
-        DNA,
-        RNA
-    };
-
-private:
-    NucleicAcidSequenceType nucleicAcidSequenceType;
-};
-
-class DNA_Sequence : public NucleicAcidSequence
-{
-public:
-    enum class DNA_Bases // initialized with powers of 2 to enable bitwise OR ( | operator ) linking
-    {
-        A = 1,
-        C = 2,
-        G = 4,
-        T = 8
-    };
-
-private:
-    NucleicAcidSequenceType nucleicAcidSequenceType = NucleicAcidSequenceType::DNA;
-};
-
-class RNA_Sequence : public NucleicAcidSequence
-{
-public:
-    enum class DNA_Bases
-    {
-        A = 1,
-        C = 2,
-        G = 4,
-        U = 8
-    };
-
-private:
-    NucleicAcidSequenceType nucleicAcidSequenceType = NucleicAcidSequenceType::RNA;
-};*/

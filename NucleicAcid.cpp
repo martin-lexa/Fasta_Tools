@@ -24,9 +24,7 @@ void NucleicAcid::initStandardNucleicAcids(const string &standardNucleicAcidsFil
         struct AcidInfo
         {
             string longName;
-            string threeLetterName;
             char oneLetterName;
-            float molecularMass;
         };
         vector<AcidInfo> standardNucleicAcidInfos;
         ifstream inputFile("StandardAcids");
@@ -40,7 +38,7 @@ void NucleicAcid::initStandardNucleicAcids(const string &standardNucleicAcidsFil
             {
                 values.push_back(value);
             }
-            AcidInfo newAcidInfo = {values[0], values[1], values[2][0], stof(values[3])};
+            AcidInfo newAcidInfo = {values[0], values[1][0]};
             standardNucleicAcidInfos.push_back(newAcidInfo);
         }
         inputFile.close();

@@ -29,7 +29,9 @@ public:
 
     // Operators
     bool operator==(const Acid &i_rhs) const;
+    bool operator==(const std::string &i_rhs) const;
     bool operator!=(const Acid &i_rhs) const;
+    bool operator!=(const std::string &i_rhs) const;
 
     // setter
     void setLongName(const string &i_longName);
@@ -42,7 +44,7 @@ public:
     // interface functions
     virtual void print() const;
 
-private:
+protected:
     static map<string, Acid *> sm_allAcids;
 
     string m_longName;

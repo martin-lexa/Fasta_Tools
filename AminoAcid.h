@@ -36,8 +36,6 @@ private:
     static void initStandardAminoAcids(const string &standardAminoAcidsFile);
     static vector<AminoAcid *> sm_standardAminoAcids;
 
-    string m_longName;
     string m_threeLetterName;
-    char m_oneLetterName;
     float m_molecularMass;
 };
