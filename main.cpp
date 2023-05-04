@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <map>
 
 using namespace std;
 
@@ -54,6 +55,12 @@ void convertStringToSeq(string &sequenceString, FastaFile &fastaFile) // less re
     }
     Sequence *newSequence = new Sequence(seqType, sequenceAcids);
     fastaFile.addOrChangeSequence(*newSequence, 0);
+    // insert empty comment if no comment exists, so my sloppy logic works
+    if (fastaFile.getSequences().size() > fastaFile.getComments().size())
+    {
+        auto *newComment = new Comment();
+        fastaFile.addOrChangeComment(*newComment, 0);
+    }
 }
 
 string checkSeqString(string &sequenceString, FastaFile &fastaFile) // checks if there are Acids in the SequenceString so they can be converted into a Sequence-Object
@@ -66,7 +73,7 @@ string checkSeqString(string &sequenceString, FastaFile &fastaFile) // checks if
     return sequenceString;
 }
 
-FastaFile *readFastFile(const string &filePath)
+FastaFile *readFastaFile(const string &filePath)
 {
 
     FastaFile *fastaFile = new FastaFile();
@@ -91,11 +98,7 @@ FastaFile *readFastFile(const string &filePath)
         else
         {
             if (fastaFile->getLineWidth() == 0)
-            {
-                cout << " Changing line width to: " << line.length() << endl; // Testing
                 fastaFile->setLineWidth(line.length());
-                cout << " Line width is now: " << fastaFile->getLineWidth() << endl; // Testing
-            }
             sequenceString += line;
         }
     }
@@ -104,12 +107,77 @@ FastaFile *readFastFile(const string &filePath)
     return fastaFile;
 }
 
-int main()
+void calculateGCContent(Sequence &sequence, int sequenceNumber)
+/* Only works properly if sequence contains nothing but the 5 different nucleic acids.
+A function that properly estimates GC-content for files with ambiguous codes (e.g. 'Y' for "C, T or G", 'D' for "not C" etc.)
+isn't much harder to program, but rather a long function full of simple maths. */
 {
+    map<char, int> elementCounts;
+    for (auto acid : sequence.getSequenceAcids())
+    {
+        char oneLetterName = acid->getOneLetterName();
+        if (elementCounts.count(oneLetterName) == 0)
+            elementCounts[oneLetterName] = 1;
+        else
+            elementCounts[oneLetterName]++;
+    }
+    cout << "Statistics for sequence number " << sequenceNumber << endl;
+    for (pair<char, int> elementCount : elementCounts)
+    {
+        cout << elementCount.first << ": " << elementCount.second << endl;
+    }
+    cout << "GC-Content: " << float(float(elementCounts.at('G') + elementCounts.at('C')) / float(sequence.getSequenceAcids().size())) * 100 << "%" << endl;
+}
+
+void drawAAHistogram(Sequence &sequence, int sequenceNumber)
+{
+    map<Acid *, int> elementCounts;
+    int numberOfElements = sequence.getSequenceAcids().size();
+    for (auto acid : sequence.getSequenceAcids())
+    {
+        if (elementCounts.count(acid) == 0)
+            elementCounts[acid] = 1;
+        else
+            elementCounts[acid]++;
+    }
+    cout << "Histogramm of amino acids of sequence number " << sequenceNumber << endl;
+    for (pair<Acid *, int> elementCount : elementCounts)
+    {
+        Acid *acid = elementCount.first;
+        cout << acid->getOneLetterName() << " (" << acid->getLongName() << "): " << elementCount.second << endl;
+        int scaledBarLength;
+        if (numberOfElements > 400)
+            scaledBarLength = int(float((float)elementCount.second / (float)numberOfElements) * 100);
+        else
+            scaledBarLength = elementCount.second;
+        for (int i = 0; i < scaledBarLength; i++)
+            cout << "+";
+        cout << endl;
+    }
+}
+
+int main(int argc, char *argv[]) // FileName of FASTA-file to read can be given as argument
+{
+    string fastaFileName;
+    if (argc == 2)
+        fastaFileName = argv[1];
+    else
+        fastaFileName = "gene.fna";
+
     try
     {
-        FastaFile *fastaFile = readFastFile("gene_s.fna");
-        cout << " Line width is now: " << fastaFile->getLineWidth() << endl; // Testing
+        FastaFile *fastaFile = readFastaFile(fastaFileName);
+
+        int sequenceNumber = 1;
+        for (auto seq : fastaFile->getSequences())
+        {
+            if (seq->getSequenceType() == Sequence::SequenceType::DNA || seq->getSequenceType() == Sequence::SequenceType::RNA)
+                calculateGCContent(*seq, sequenceNumber);
+            else
+                drawAAHistogram(*seq, sequenceNumber);
+            sequenceNumber++;
+        }
+
         fastaFile->writeFastaFile("output.fasta");
     }
     catch (const FastaException &e)

@@ -111,13 +111,12 @@ const vector<Comment *> &FastaFile::getComments() const { return m_comments; }
 // interface functions
 void FastaFile::writeFastaFile(const string &fileName) const
 {
-    cout << "Line Width: " << this->m_lineWidth << endl; // Testing
     ofstream outputFile;
     outputFile.open(fileName);
-    int currentLineWidth = 0;
     int sequencesSize = m_sequences.size();
     for (int i = 0; i < sequencesSize; i++)
     {
+        int currentLineWidth = 0;
         outputFile << *m_headers[i] << endl;
         for (auto acid : m_sequences[i]->getSequenceAcids())
         {
@@ -130,9 +129,8 @@ void FastaFile::writeFastaFile(const string &fileName) const
             }
         }
         outputFile << endl;
-        cout << "Line Width: " << this->m_lineWidth << endl; // Testing
-        /*if (!m_comments[i]->getContent().empty())
-            outputFile << *m_comments[i] << endl;*/
+        if (m_comments[i]->getContent() != "")
+            outputFile << *m_comments[i] << endl;
     }
     outputFile.close();
 }
